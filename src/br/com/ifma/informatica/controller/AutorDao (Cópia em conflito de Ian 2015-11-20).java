@@ -11,23 +11,13 @@ import br.com.ifma.informatica.model.Autor;
 import br.com.ifma.informatica.model.Editora;
 
 public class AutorDao {
-	/*
-	 * 
-  CREATE TABLE `autor` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(45) DEFAULT NULL,
-  `idlivro` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idlivro_idx` (`idlivro`),
-  CONSTRAINT `idlivro` FOREIGN KEY (`idlivro`) REFERENCES `livro` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-	 */
-	
 
-	public static void criarAutor(Autor autor) throws SQLException {
+	public static void criarAutor(String nome) throws SQLException {
 		try {
 			Connection con = Dao.getConnection();
-			String sql = ("INSERT INTO autor (ID, NOME) VALUES ('" + autor.getNome() + "')");
+			Autor autor = new Autor();
+			autor.setNome(nome);
+			String sql = ("INSERT INTO AUTOR (NOME) VALUES ('" + autor.getNome() + "')");
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.executeUpdate();
 		} catch (Exception e) {
@@ -51,14 +41,14 @@ public class AutorDao {
 		List<Autor> lista = new ArrayList<Autor>();
 		try {
 			Connection con = Dao.getConnection();
-			String sql = ("SELECT * FROM autor ORDER BY NOME");
+			String sql = ("SELECT * FROM `autor` ORDER BY NOME");
 			PreparedStatement ps = con.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			Autor autor;
 			while (rs.next()) {
 				autor = new Autor();
-				autor.setId(rs.getInt("id"));
-				autor.setNome(rs.getString("nome"));
+				autor.setId(rs.getInt("ID"));
+				autor.setNome(rs.getString("NOME"));
 				lista.add(autor);
 			}
 		} catch (Exception e) {
@@ -72,30 +62,16 @@ public class AutorDao {
 		for (Autor autor : readAutor()) {
 			if (autor.getID() == id) {
 				return autor;
-
 			}
 		}
 		return null;
 	}
 
-	// public static void updateAutor(String valorAtual, String valorNovo,
-	// String atributo) throws SQLException {
-	// try {
-	// Connection con = Dao.getConnection();
-	// String sql = ("UPDATE autor SET " + atributo + " = '" + valorNovo + "'
-	// WHERE " + atributo + " = '"
-	// + valorAtual + "';");
-	// PreparedStatement ps = con.prepareStatement(sql);
-	// ps.executeUpdate();
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-
-	public static void updateAutor(Long idAutor, String parametro, String novoValor) {
+	public static void updateAutor(String valorAtual, String valorNovo, String atributo) throws SQLException {
 		try {
 			Connection con = Dao.getConnection();
-			String sql = ("UPDATE autor SET " + parametro + " = " + novoValor + " WHERE  ID = " + idAutor);
+			String sql = ("UPDATE autor SET " + atributo + " = '" + valorNovo + "' WHERE " + atributo + " = '"
+					+ valorAtual + "';");
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.executeUpdate();
 		} catch (Exception e) {

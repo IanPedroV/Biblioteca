@@ -4,10 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Livro {
+	private Long id;
 	private String nome;
-	private String autor;
 	private Editora editora;
-	private List <Autor> Autores = new ArrayList<Autor>();
+	private List <Autor> autores = new ArrayList<Autor>();
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getNome() {
 		return nome;
@@ -17,13 +25,6 @@ public class Livro {
 		this.nome = nome;
 	}
 
-	public String getAutor() {
-		return autor;
-	}
-
-	public void setAutor(String autor) {
-		this.autor = autor;
-	}
 
 	public Editora getEditora() {
 		return editora;
@@ -34,11 +35,11 @@ public class Livro {
 	}
 
 	public List <Autor> getAutores() {
-		return Autores;
+		return autores;
 	}
 
 	public void setAutores(List <Autor> autores) {
-		Autores = autores;
+		this.autores = autores;
 	}
 
 }

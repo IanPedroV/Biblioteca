@@ -8,6 +8,17 @@ import com.mysql.jdbc.PreparedStatement;
 import br.com.ifma.informatica.model.UsuarioComum;
 
 public class usuarioComumDao {
+	/*
+	 * 
+  CREATE TABLE `usuario_comum` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(45) DEFAULT NULL,
+  `idade` int(11) DEFAULT NULL,
+  `endereco` varchar(45) DEFAULT NULL,
+  `cpf` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+	 */
 
 	public static void criaUsuario(String nome, int idade, String endereco, String cpf) throws SQLException {
 		try {

@@ -8,38 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.ifma.informatica.model.Autor;
+import br.com.ifma.informatica.model.Editora;
 import br.com.ifma.informatica.model.Livro;
 
 public class LivroDao {
-	
-	/*
-	 * 
-   CREATE TABLE `livro` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(45) DEFAULT NULL,
-  `ideditora` int(11) DEFAULT NULL,
-  `idautor` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `ideditora_idx` (`ideditora`),
-  KEY `idautor_idx` (`idautor`),
-  CONSTRAINT `ideditora` FOREIGN KEY (`ideditora`) REFERENCES `editora` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `idautor` FOREIGN KEY (`idautor`) REFERENCES `livro` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-	 */
-	
-	public static void criarLivro(Livro livro) throws SQLException {
+
+	public static void criarLivro(String nome, List <Autor> Autores, Editora editora) throws SQLException {
 		try {
 			Connection con = Dao.getConnection();
-			String sql = ("INSERT INTO livro (ID, NOME, IDEDITORA) VALUES ('" + livro.getId() + "', '" + livro.getNome()
-					 + "', '" + livro.getEditora().getId() + "');");
+			Livro livro = new Livro();
+			livro.setNome(nome);
+			livro.setEditora(editora);
+			String sql = ("INSERT INTO livro (NOME, IDAUTOR, IDEDITORA) VALUES ('" + livro.getNome() + "', '"
+					+ Autores + "', '" + editora.getId() + "');");
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		
-		for (Autor autor : livro.getAutores()) {
-			AutorDao.updateAutor(autor.getID(), "IDLIVRO", String.valueOf(livro.getId()));
 		}
 		System.out.println("Registro Realizado.");
 	}
@@ -55,6 +40,7 @@ public class LivroDao {
 			while (rs.next()) {
 				livro = new Livro();
 				livro.setNome(rs.getString("NOME"));
+				livro.setAutor(rs.getString("AUTOR"));
 				String idEditora = rs.getString("IDEDITORA");
 				livro.setEditora(EditoraDao.readEditora(Integer.valueOf(idEditora)));
 				lista1.add(livro);
@@ -65,6 +51,7 @@ public class LivroDao {
 
 		return lista1;
 	}
+
 
 	public static void updateLivro(String valorAtual, String valorNovo, String atributo) throws SQLException {
 		try {

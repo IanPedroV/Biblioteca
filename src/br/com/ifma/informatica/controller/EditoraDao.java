@@ -10,15 +10,22 @@ import java.util.List;
 import br.com.ifma.informatica.model.Editora;
 
 public class EditoraDao {
+	/* 
+	 * 
+   CREATE TABLE `editora` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(45) DEFAULT NULL,
+  `endereco` varchar(45) DEFAULT NULL,
+  `telefone` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-	public static void criaEditora(String nome, String endereco, String telefone) throws SQLException {
+	 */
+
+	public static void criaEditora(Editora editora) throws SQLException {
 		try {
 			Connection con = Dao.getConnection();
-			Editora editora = new Editora();
-			editora.setNome(nome);
-			editora.setEndereco(endereco);
-			editora.setTelefone(telefone);
-			String sql = ("INSERT INTO `editora` (`NOME`, `ENDERECO`, `TELEFONE`) VALUES ('" + editora.getNome()
+			String sql = ("INSERT INTO editora (id, nome, endereco, telefone) VALUES ('"+ editora.getId() + "', '" + editora.getNome()
 					+ "', '" + editora.getEndereco() + "', '" + editora.getTelefone() + "');");
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.executeUpdate();
@@ -32,16 +39,16 @@ public class EditoraDao {
 		List<Editora> lista = new ArrayList<Editora>();
 		try {
 			Connection con = Dao.getConnection();
-			String sql = ("SELECT * FROM `editora` ORDER BY NOME");
+			String sql = ("SELECT * FROM editora ORDER BY NOME");
 			PreparedStatement ps = con.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			Editora editora;
 			while (rs.next()) {
 				editora = new Editora();
-				editora.setId(rs.getInt("ID"));
-				editora.setNome(rs.getString("NOME"));
-				editora.setEndereco(rs.getString("ENDERECO"));
-				editora.setTelefone(rs.getString("TELEFONE"));
+				editora.setId(rs.getInt("id"));
+				editora.setNome(rs.getString("nome"));
+				editora.setEndereco(rs.getString("endereco"));
+				editora.setTelefone(rs.getString("telefone"));
 				lista.add(editora);
 			}
 		} catch (Exception e) {
@@ -76,7 +83,7 @@ public class EditoraDao {
 	public static void deleteEditora(String nomeDaEditora) throws SQLException {
 		try {
 			Connection con = Dao.getConnection();
-			String sql = ("DELETE FROM `editora` WHERE NOME = '" + nomeDaEditora + "';");
+			String sql = ("DELETE FROM editora WHERE NOME = '" + nomeDaEditora + "';");
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.executeUpdate();
 		} catch (Exception e) {

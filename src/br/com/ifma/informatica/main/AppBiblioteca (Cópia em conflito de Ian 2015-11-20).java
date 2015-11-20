@@ -22,35 +22,22 @@ public class AppBiblioteca {
 		}
 	}
 
-//	static void imprimirLivro() throws SQLException {
-//		for (Livro livro : LivroDao.readLivro()) {
-//			System.out.println("Informacoes do Livro: Nome " + livro.getNome() + "| Autor: " + livro.getAutor()
-//					+ "| Editora: " + livro.getEditora().getNome());
-//		}
-//	}
+	static void imprimirLivro() throws SQLException {
+		for (Livro livro : LivroDao.readLivro()) {
+			System.out.println("Informacoes do Livro: Nome " + livro.getNome() + "| Autor: " + livro.getAutor()
+					+ "| Editora: " + livro.getEditora().getNome());
+		}
+	}
 
 	public static void main(String[] args) throws SQLException {
-		// Editora editora = EditoraDao.readEditora(1);
-		List<Autor> autores = AutorDao.readAutor();
-		// EditoraDao.criaEditora("Leitura", "Shopping da Ilha", "99 99999999");
-		// LivroDao.criarLivro("Nunca desista dos seus sonhos", autores,
-		// editora);
+		Editora editora = EditoraDao.readEditora(1);
+		//List <Autor> autores =  AutorDao.readAutor(3);
+		//EditoraDao.criaEditora("Leitura", "Shopping da Ilha", "99 99999999");
+		//LivroDao.criarLivro("asd", autores, editora);
 		// LivroDao.readLivro();
 		// EditoraDao.readEditora();
 		// MenuPrincipalSwing.createTela(true);
-		Livro livro = new Livro();
-		livro.setId(1L);
-		livro.setNome("The Magic of Reality");
-		livro.setEditora(EditoraDao.readEditora(1));
-		livro.setAutores(autores);
-		LivroDao.criarLivro(livro);
-		
-//		Editora editora = new Editora();
-//		editora.setId(1);
-//		editora.setNome("Editora Abril");
-//		editora.setEndereco("Esquina Paquistao com Avenida Ribamar");
-//		editora.setTelefone("99 99999999");
-//		EditoraDao.criaEditora(editora);
+	    //AutorDao.criarAutor("Augusto Cury");
 	}
 
 }
