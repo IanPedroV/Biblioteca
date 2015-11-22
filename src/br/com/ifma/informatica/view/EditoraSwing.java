@@ -14,7 +14,6 @@ import br.com.ifma.informatica.model.*;
 
 public class EditoraSwing {
 
-
 	public static JFrame createTelaEditora(Boolean setDeVisibilidade) {
 
 		JFrame frameEditora = new JFrame("Cadastro de Editora");
@@ -25,11 +24,15 @@ public class EditoraSwing {
 		JButton botaoVoltar = new JButton("Voltar");
 		JButton botaoSair = new JButton("Sair");
 
-		JLabel labelId = new JLabel("Identificação: ");
+		JLabel labelId = new JLabel("IdentificaÃ§Ã£o: ");
 		JLabel labelNome = new JLabel("Nome da Editora: ");
+		JLabel labelEndereco = new JLabel("Endereco: ");
+		JLabel labelTelefone = new JLabel("Telefone: ");
 
 		JTextField textId = new JTextField(10);
 		JTextField textNome = new JTextField(25);
+		JTextField textEndereco = new JTextField(25);
+		JTextField textTelefone = new JTextField(10);
 
 		frameEditora.add(panel);
 
@@ -40,6 +43,10 @@ public class EditoraSwing {
 		panel.add(textId);
 		panel.add(labelNome);
 		panel.add(textNome);
+		panel.add(labelEndereco);
+		panel.add(textEndereco);
+		panel.add(labelTelefone);
+		panel.add(textTelefone);
 		panel.add(botaoCadastrar);
 		panel.add(botaoVoltar);
 		panel.add(botaoSair);
@@ -47,13 +54,11 @@ public class EditoraSwing {
 		botaoCadastrar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Usuario user = new UsuarioComum();
-				user.setNome(textNome.getText());
-				JOptionPane.showMessageDialog(null,
-						"Editora cadastrada com sucesso!");
-
+				JOptionPane.showMessageDialog(null, "Editora cadastrada com sucesso!");
 				textId.setText("");
 				textNome.setText("");
+				textEndereco.setText("");
+				textEndereco.setText("");
 			}
 		});
 
@@ -68,12 +73,11 @@ public class EditoraSwing {
 		botaoSair.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null,
-						"Este aplicativo irá encerrar!");
+				JOptionPane.showMessageDialog(null, "Este aplicativo ira encerrar!");
 				System.exit(0);
 			}
 		});
-		
+
 		return null;
 	}
 

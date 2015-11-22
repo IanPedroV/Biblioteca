@@ -15,28 +15,68 @@ import br.com.ifma.informatica.model.Usuario;
 import br.com.ifma.informatica.model.UsuarioComum;
 
 public class LivroSwing {
-
 	
-	public static void createTelaLivro(Boolean setDeVisibilidade) {
-		JFrame frameLivro = new JFrame("Cadastro de livro");
+	public static void createTelaMenuLivro(Boolean setDeVisibilidade) {
+		JFrame frameMenuLivro = new JFrame("Menu de Livro");
+		JPanel panelMenuLivro = new JPanel();
 
+		JButton botaoCadastrar = new JButton("Cadastro");
+		JButton botaoConsultar = new JButton("Consulta");
+		JButton botaoAlterar = new JButton("Altera√ß√£o");
+		JButton botaoExcluir = new JButton("Exclus√£o");
+		JButton botaoVoltar = new JButton("Voltar");
+		JButton botaoSair = new JButton("Sair");
+
+		frameMenuLivro.add(panelMenuLivro);
+
+		frameMenuLivro.setSize(800, 600);
+		frameMenuLivro.setVisible(setDeVisibilidade);
+
+		panelMenuLivro.add(botaoCadastrar);
+		panelMenuLivro.add(botaoConsultar);
+		panelMenuLivro.add(botaoAlterar);
+		panelMenuLivro.add(botaoExcluir);
+		panelMenuLivro.add(botaoVoltar);
+		panelMenuLivro.add(botaoSair);
+
+		botaoCadastrar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				LivroSwing.createTelaCadastrarLivro(true);
+				frameMenuLivro.setVisible(false);
+
+			}
+		});
+		
+		botaoConsultar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				LivroSwing.createTelaConsultarLivro(true);
+				frameMenuLivro.setVisible(false);
+
+			}
+		});
+
+	}
+
+	public static void createTelaCadastrarLivro(Boolean setDeVisibilidade) {
+		JFrame frameCadastroLivro = new JFrame("Cadastro de Livro");
 
 		JPanel panel = new JPanel();
 
 		JButton botaoCadastrar = new JButton("Cadastrar");
-		JButton botaoVoltar = new JButton("voltar");
+		JButton botaoVoltar = new JButton("Voltar");
 		JButton botaoSair = new JButton("Sair");
 
-		JLabel labelId = new JLabel("IdentificaÁ„o: ");
-		JLabel labelNome = new JLabel("Nome da Editora: ");
+		JLabel labelId = new JLabel("Identifica√ß√£o: ");
+		JLabel labelNome = new JLabel("Nome: ");
 
 		JTextField textId = new JTextField(10);
 		JTextField textNome = new JTextField(25);
 
-		frameLivro.add(panel);
-
-		frameLivro.setSize(800, 600);
-		frameLivro.setVisible(setDeVisibilidade);
+		frameCadastroLivro.add(panel);
+		frameCadastroLivro.setSize(800, 600);
+		frameCadastroLivro.setVisible(setDeVisibilidade);
 
 		panel.add(labelId);
 		panel.add(textId);
@@ -49,13 +89,10 @@ public class LivroSwing {
 		botaoCadastrar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Usuario user = new UsuarioComum();
-				user.setNome(textNome.getText());
-				JOptionPane.showMessageDialog(null,
-						"Editora cadastrada com sucesso!");
-
+				JOptionPane.showMessageDialog(null, "Editora cadastrada com sucesso!");
 				textId.setText("");
 				textNome.setText("");
+
 			}
 		});
 
@@ -64,19 +101,48 @@ public class LivroSwing {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MenuPrincipalSwing.createTela(true);
-				frameLivro.dispose();
+				frameCadastroLivro.dispose();
 			}
 		});
 
 		botaoSair.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null,
-						"Este aplicativo ir· encerrar!");
+				JOptionPane.showMessageDialog(null, "Este aplicativo ira encerrar!");
 				System.exit(0);
 			}
 		});
+
+	}
+
+	public static void createTelaConsultarLivro(Boolean setDeVisibilidade) {
+		JFrame frameConsultarLivro = new JFrame("Consulta de Livro");
+		JPanel panelConsultarLivro = new JPanel();
+
+		frameConsultarLivro.add(panelConsultarLivro);
+		frameConsultarLivro.setSize(800, 600);
+		frameConsultarLivro.setVisible(setDeVisibilidade);
+		
+		JButton botaoVoltar = new JButton("Voltar");
+		JButton botaoSair = new JButton("Sair");
+		
+		panelConsultarLivro.add(botaoVoltar);
+		panelConsultarLivro.add(botaoSair);
+
 		
 	}
+
+	public static void createTelaAlterarLivro(Boolean setDeVisibilidade) {
+		JFrame frameAlterarLivro = new JFrame("Alterar Livro");
+		JPanel panelAlterarLivro = new JPanel();
+		
+		frameAlterarLivro.add(panelAlterarLivro);
+		frameAlterarLivro.setSize(800, 600);
+		frameAlterarLivro.setVisible(setDeVisibilidade);
+			
+	
+	
+	}
+	
 
 }

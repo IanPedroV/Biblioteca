@@ -9,39 +9,29 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class MenuPrincipalSwing {
-		
 
 	public static void createTela(Boolean setDeVisibilidade) {
 
-		JFrame frameMenu = new JFrame("Cadastro de Editora");
-
+		JFrame frameMenu = new JFrame("Menu Principal");
 		JPanel panel = new JPanel();
-
-		JButton botaoCadastrar1 = new JButton("Cadastro de livros");
-		JButton botaoCadastrar2 = new JButton("Cadastro de editoras");
+		JButton botaoMenuLivro = new JButton("Menu de Livro");
+		JButton botaoMenuEditora = new JButton("Menu de Editora");
+		JButton botaoMenuAutor = new JButton("Menu de Autor");
+		JButton botaoMenuUsuario = new JButton("Menu de Usuario");
 		JButton botaoSair = new JButton("Sair");
 
 		frameMenu.add(panel);
 
 		frameMenu.setSize(800, 600);
 		frameMenu.setVisible(setDeVisibilidade);
-
-		panel.add(botaoCadastrar2);
-		panel.add(botaoCadastrar1);
+		panel.add(botaoMenuLivro);
+		panel.add(botaoMenuEditora);
+		panel.add(botaoMenuAutor);
+		panel.add(botaoMenuUsuario);
 		panel.add(botaoSair);
 
-		// Direciona para o cadastro de editora
-		botaoCadastrar1.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				LivroSwing.createTelaLivro(true);
-				frameMenu.setVisible(false);
-
-			}
-		});
-
-		// Direciona para o cadastro de livro
-		botaoCadastrar2.addActionListener(new ActionListener() {
+		// Direciona para o menu de Editora
+		botaoMenuEditora.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				EditoraSwing.createTelaEditora(true);
@@ -49,12 +39,39 @@ public class MenuPrincipalSwing {
 			}
 		});
 
-		// Sair
+		// Direciona para o menu de Livro
+		botaoMenuLivro.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				LivroSwing.createTelaMenuLivro(true);
+				frameMenu.setVisible(false);
+
+			}
+		});
+
+		// Direciona para o menu de autor
+		botaoMenuEditora.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				EditoraSwing.createTelaEditora(true);
+				frameMenu.setVisible(false);
+			}
+		});
+
+		// Direciona para o menu de usuarioComum
+		botaoMenuEditora.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				EditoraSwing.createTelaEditora(true);
+				frameMenu.setVisible(false);
+			}
+		});
+
+		// Sai do sistema
 		botaoSair.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null,
-						"Este aplicativo irá encerrar!");
+				JOptionPane.showMessageDialog(null, "Este aplicativo ira encerrar!");
 				System.exit(0);
 			}
 		});
