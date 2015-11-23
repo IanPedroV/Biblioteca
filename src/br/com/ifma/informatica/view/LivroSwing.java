@@ -15,7 +15,7 @@ import br.com.ifma.informatica.model.Usuario;
 import br.com.ifma.informatica.model.UsuarioComum;
 
 public class LivroSwing {
-	
+
 	public static void createTelaMenuLivro(Boolean setDeVisibilidade) {
 		JFrame frameMenuLivro = new JFrame("Menu de Livro");
 		JPanel panelMenuLivro = new JPanel();
@@ -47,7 +47,7 @@ public class LivroSwing {
 
 			}
 		});
-		
+
 		botaoConsultar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -56,8 +56,33 @@ public class LivroSwing {
 
 			}
 		});
+		
+		botaoAlterar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				LivroSwing.createTelaAlterarLivro(true);
+				frameMenuLivro.setVisible(false);
 
-	}
+			}
+		});
+	
+	botaoVoltar.addActionListener(new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			MenuPrincipalSwing.createTela(true);
+			frameMenuLivro.dispose();
+		}
+	});
+
+	botaoSair.addActionListener(new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JOptionPane.showMessageDialog(null, "Este aplicativo ira encerrar!");
+			System.exit(0);
+		}
+	});
+
+}
 
 	public static void createTelaCadastrarLivro(Boolean setDeVisibilidade) {
 		JFrame frameCadastroLivro = new JFrame("Cadastro de Livro");
@@ -97,7 +122,6 @@ public class LivroSwing {
 		});
 
 		botaoVoltar.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MenuPrincipalSwing.createTela(true);
@@ -122,27 +146,80 @@ public class LivroSwing {
 		frameConsultarLivro.add(panelConsultarLivro);
 		frameConsultarLivro.setSize(800, 600);
 		frameConsultarLivro.setVisible(setDeVisibilidade);
-		
+
 		JButton botaoVoltar = new JButton("Voltar");
 		JButton botaoSair = new JButton("Sair");
-		
+
 		panelConsultarLivro.add(botaoVoltar);
 		panelConsultarLivro.add(botaoSair);
-
 		
+		botaoVoltar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MenuPrincipalSwing.createTela(true);
+				frameConsultarLivro.dispose();
+			}
+		});
+
+		botaoSair.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Este aplicativo ira encerrar!");
+				System.exit(0);
+			}
+		});
+
 	}
 
 	public static void createTelaAlterarLivro(Boolean setDeVisibilidade) {
 		JFrame frameAlterarLivro = new JFrame("Alterar Livro");
 		JPanel panelAlterarLivro = new JPanel();
 		
+		JButton botaoAlterar = new JButton("Alterar");
+		JButton botaoVoltar = new JButton("Voltar");
+		JButton botaoSair = new JButton("Sair");
+
+		JLabel labelAtributo = new JLabel("Atributo a ser alterado: ");
+		JLabel labelValorAtual = new JLabel("Valor Atual a ser alterado: ");
+		JLabel labelValorNovo = new JLabel("Valor a ser substituído: ");
+
+		
+		JTextField textAtributo = new JTextField(10);
+		JTextField textValorAtual = new JTextField(25);
+		JTextField textValorNovo = new JTextField(25);
+
+
 		frameAlterarLivro.add(panelAlterarLivro);
 		frameAlterarLivro.setSize(800, 600);
 		frameAlterarLivro.setVisible(setDeVisibilidade);
-			
-	
-	
+		
+		panelAlterarLivro.add(labelAtributo);
+		panelAlterarLivro.add(textAtributo);
+		panelAlterarLivro.add(labelValorAtual);
+		panelAlterarLivro.add(textValorAtual);
+		panelAlterarLivro.add(labelValorNovo);
+		panelAlterarLivro.add(textValorNovo);
+		panelAlterarLivro.add(botaoAlterar);
+		panelAlterarLivro.add(botaoVoltar);
+		panelAlterarLivro.add(botaoSair);
+		
+		botaoVoltar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MenuPrincipalSwing.createTela(true);
+				frameAlterarLivro.dispose();
+			}
+		});
+
+		botaoSair.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Este aplicativo ira encerrar!");
+				System.exit(0);
+			}
+		});
+
+
 	}
-	
 
 }

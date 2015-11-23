@@ -17,7 +17,6 @@ public class EditoraSwing {
 	public static JFrame createTelaEditora(Boolean setDeVisibilidade) {
 
 		JFrame frameEditora = new JFrame("Cadastro de Editora");
-
 		JPanel panel = new JPanel();
 
 		JButton botaoCadastrar = new JButton("Cadastrar");

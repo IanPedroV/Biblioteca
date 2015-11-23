@@ -36,6 +36,7 @@ public class MenuPrincipalSwing {
 			public void actionPerformed(ActionEvent e) {
 				EditoraSwing.createTelaEditora(true);
 				frameMenu.setVisible(false);
+				frameMenu.dispose();
 			}
 		});
 
@@ -53,7 +54,7 @@ public class MenuPrincipalSwing {
 		botaoMenuEditora.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				EditoraSwing.createTelaEditora(true);
+				//EditoraSwing.createTelaEditora(true);
 				frameMenu.setVisible(false);
 			}
 		});
@@ -62,7 +63,7 @@ public class MenuPrincipalSwing {
 		botaoMenuEditora.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				EditoraSwing.createTelaEditora(true);
+				//EditoraSwing.createTelaEditora(true);
 				frameMenu.setVisible(false);
 			}
 		});
