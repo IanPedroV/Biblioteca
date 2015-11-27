@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 
 import br.com.ifma.informatica.model.Autor;
 import br.com.ifma.informatica.model.Editora;
+import br.com.ifma.informatica.model.Livro;
 
 public class AutorDao {
 	/*
@@ -27,11 +28,14 @@ public class AutorDao {
 	public static void criarAutor(Autor autor) throws SQLException {
 		try {
 			Connection con = Dao.getConnection();
-			String sql = ("INSERT INTO autor (ID, NOME) VALUES ('" + autor.getNome() + "')");
+			String sql = ("INSERT INTO autor (ID, NOME) VALUES ('" + autor.getID() +"', '" +  autor.getNome() + "')");
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		for (Livro livro : autor.getLivros()) {
+			LivroDao.updateLivro(autor.getID(), "idautor", String.valueOf(livro.getId()));
 		}
 		System.out.println("Registro Realizado.");
 	}
@@ -69,6 +73,8 @@ public class AutorDao {
 	}
 
 	public static Autor readAutor(int id) throws SQLException {
+		String sql = ("SELECT FROM autor WHERE id = '"+ id +"';" );
+		System.out.println(sql);
 		for (Autor autor : readAutor()) {
 			if (autor.getID() == id) {
 				return autor;

@@ -22,7 +22,7 @@ public class EditoraDao {
 
 	 */
 
-	public static void criaEditora(Editora editora) throws SQLException {
+	public static void criarEditora(Editora editora) throws SQLException {
 		try {
 			Connection con = Dao.getConnection();
 			String sql = ("INSERT INTO editora (id, nome, endereco, telefone) VALUES ('"+ editora.getId() + "', '" + editora.getNome()

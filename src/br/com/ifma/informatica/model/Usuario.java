@@ -1,16 +1,40 @@
 package br.com.ifma.informatica.model;
 
-
 abstract public class Usuario {
 
+	private Long id;
 	private String nome;
 	private int idade;
 	private String endereco;
+	private String telefone;
 	private String cpf;
-
-	abstract public void cadastroDeLivros(String nome, String editora, String autor);
+	private String discriminator;
 
 	abstract public void alugarLivros(String nome, String editora, String autor);
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+	public String getDiscriminator() {
+		return discriminator;
+	}
+
+	protected void setDiscriminator(String discriminator) {
+		this.discriminator = discriminator;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getNome() {
 		return nome;

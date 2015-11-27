@@ -39,7 +39,7 @@ public class LivroDao {
 		}
 		
 		for (Autor autor : livro.getAutores()) {
-			AutorDao.updateAutor(autor.getID(), "IDLIVRO", String.valueOf(livro.getId()));
+			AutorDao.updateAutor(autor.getID(), "idlivro", String.valueOf(livro.getId()));
 		}
 		System.out.println("Registro Realizado.");
 	}
@@ -55,7 +55,9 @@ public class LivroDao {
 			while (rs.next()) {
 				livro = new Livro();
 				livro.setNome(rs.getString("NOME"));
-				String idEditora = rs.getString("IDEDITORA");
+				String idLivro = rs.getString("idlivro");
+				String idEditora = rs.getString("ideditora");
+			    //livro.setAutores(AutorDao.readAutor(Long.valueOf(idLivro)));
 				livro.setEditora(EditoraDao.readEditora(Integer.valueOf(idEditora)));
 				lista1.add(livro);
 			}
@@ -66,27 +68,39 @@ public class LivroDao {
 		return lista1;
 	}
 
-	public static void updateLivro(String valorAtual, String valorNovo, String atributo) throws SQLException {
+//	public static void updateLivro(String valorAtual, String valorNovo, String atributo) throws SQLException {
+//		try {
+//			Connection con = Dao.getConnection();
+//			String sql = ("UPDATE livro SET " + atributo + " = '" + valorNovo + "' WHERE " + atributo + " = '"
+//					+ valorAtual + "';");
+//			PreparedStatement ps = con.prepareStatement(sql);
+//			ps.executeUpdate();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+	
+	// Comentado por que não foi testado.
+	public static void updateLivro(Long idLivro, String parametro, String novoValor) {
 		try {
-			Connection con = Dao.getConnection();
-			String sql = ("UPDATE livro SET " + atributo + " = '" + valorNovo + "' WHERE " + atributo + " = '"
-					+ valorAtual + "';");
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
+				Connection con = Dao.getConnection();
+				String sql = ("UPDATE autor SET " + parametro + " = " + novoValor + " WHERE  ID = " + idLivro);
+				PreparedStatement ps = con.prepareStatement(sql);
+				ps.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+				}
 		}
-	}
 
-	public static void deleteLivro(String nomeDoLivro) throws SQLException {
-		try {
-			Connection con = Dao.getConnection();
-			String sql = ("DELETE FROM livro WHERE NOME = '" + nomeDoLivro + "';");
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public static void deleteLivro(String nomeDoLivro) throws SQLException {
+//		try {
+//			Connection con = Dao.getConnection();
+//			String sql = ("DELETE FROM livro WHERE NOME = '" + nomeDoLivro + "';");
+//			PreparedStatement ps = con.prepareStatement(sql);
+//			ps.executeUpdate();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 }
