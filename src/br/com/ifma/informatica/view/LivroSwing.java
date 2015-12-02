@@ -2,17 +2,29 @@ package br.com.ifma.informatica.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import br.com.ifma.informatica.controller.AutorDao;
+import br.com.ifma.informatica.controller.Dao;
+import br.com.ifma.informatica.controller.EditoraDao;
+import br.com.ifma.informatica.controller.LivroDao;
+import br.com.ifma.informatica.model.Autor;
 import br.com.ifma.informatica.model.Editora;
-import br.com.ifma.informatica.model.Usuario;
-import br.com.ifma.informatica.model.UsuarioComum;
+import br.com.ifma.informatica.model.Livro;
+import javafx.scene.control.ComboBox;
 
 public class LivroSwing {
 
@@ -42,7 +54,12 @@ public class LivroSwing {
 		botaoCadastrar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LivroSwing.createTelaCadastrarLivro(true);
+				try {
+					LivroSwing.createTelaCadastrarLivro(true);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				frameMenuLivro.setVisible(false);
 
 			}
@@ -65,7 +82,7 @@ public class LivroSwing {
 
 			}
 		});
-		
+
 		botaoExcluir.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -93,7 +110,7 @@ public class LivroSwing {
 
 	}
 
-	public static void createTelaCadastrarLivro(Boolean setDeVisibilidade) {
+	public static void createTelaCadastrarLivro(Boolean setDeVisibilidade) throws SQLException {
 		JFrame frameCadastroLivro = new JFrame("Cadastro de Livro");
 
 		JPanel panel = new JPanel();
@@ -101,9 +118,11 @@ public class LivroSwing {
 		JButton botaoCadastrar = new JButton("Cadastrar");
 		JButton botaoVoltar = new JButton("Voltar");
 		JButton botaoSair = new JButton("Sair");
+		JComboBox<String> comboEditora = new JComboBox<String>();
 
 		JLabel labelId = new JLabel("Identificação: ");
 		JLabel labelNome = new JLabel("Nome: ");
+		JLabel labelEditora = new JLabel("Editora: ");
 
 		JTextField textId = new JTextField(10);
 		JTextField textNome = new JTextField(25);
@@ -112,10 +131,24 @@ public class LivroSwing {
 		frameCadastroLivro.setSize(800, 600);
 		frameCadastroLivro.setVisible(setDeVisibilidade);
 
+		try {
+			Connection con = Dao.getConnection();
+			String sql = ("SELECT nome FROM editora ORDER BY ID");
+			PreparedStatement ps = con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				comboEditora.addItem(rs.getString("nome"));	
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		panel.add(labelId);
 		panel.add(textId);
 		panel.add(labelNome);
 		panel.add(textNome);
+		panel.add(labelEditora);
+		panel.add(comboEditora);
 		panel.add(botaoCadastrar);
 		panel.add(botaoVoltar);
 		panel.add(botaoSair);
@@ -123,7 +156,24 @@ public class LivroSwing {
 		botaoCadastrar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Editora cadastrada com sucesso!");
+				JOptionPane.showMessageDialog(null, "Livro cadastrado com sucesso!");
+				try {		
+					
+					Livro livro = new Livro();
+					String text = textId.getText();
+					String text1 = textNome.getText();
+					Editora editora = EditoraDao.readEditora(comboEditora.getSelectedIndex());
+					List<Autor> autores = new ArrayList<Autor>();
+					autores.add(AutorDao.readAutor(1));
+					livro.setId(Long.parseLong(text));
+					livro.setNome(text1);
+					livro.setEditora(editora);
+					livro.setAutores(autores);
+					LivroDao.criarLivro(livro);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+
 				textId.setText("");
 				textNome.setText("");
 

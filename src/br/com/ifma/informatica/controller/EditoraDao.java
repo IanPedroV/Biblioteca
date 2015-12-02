@@ -7,26 +7,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JComboBox;
+
 import br.com.ifma.informatica.model.Editora;
 
 public class EditoraDao {
-	/* 
+	/*
 	 * 
-   CREATE TABLE `editora` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(45) DEFAULT NULL,
-  `endereco` varchar(45) DEFAULT NULL,
-  `telefone` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+	 * CREATE TABLE `editora` ( `id` int(11) NOT NULL, `nome` varchar(45)
+	 * DEFAULT NULL, `endereco` varchar(45) DEFAULT NULL, `telefone` varchar(45)
+	 * DEFAULT NULL, PRIMARY KEY (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+	 * 
 	 */
 
 	public static void criarEditora(Editora editora) throws SQLException {
 		try {
 			Connection con = Dao.getConnection();
-			String sql = ("INSERT INTO editora (id, nome, endereco, telefone) VALUES ('"+ editora.getId() + "', '" + editora.getNome()
-					+ "', '" + editora.getEndereco() + "', '" + editora.getTelefone() + "');");
+			String sql = ("INSERT INTO editora (id, nome, endereco, telefone) VALUES ('" + editora.getId() + "', '"
+					+ editora.getNome() + "', '" + editora.getEndereco() + "', '" + editora.getTelefone() + "');");
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.executeUpdate();
 		} catch (Exception e) {
@@ -68,6 +66,7 @@ public class EditoraDao {
 		return null;
 	}
 
+
 	public static void updateEditora(String valorAtual, String valorNovo, String atributo) throws SQLException {
 		try {
 			Connection con = Dao.getConnection();
@@ -90,5 +89,7 @@ public class EditoraDao {
 			e.printStackTrace();
 		}
 	}
+
+
 
 }

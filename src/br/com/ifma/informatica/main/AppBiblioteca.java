@@ -43,38 +43,38 @@ public class AppBiblioteca {
 	}
 
 	public static void main(String[] args) throws SQLException {
-		 MenuPrincipalSwing.createTela(true);
-//		 UsuarioComum usuario = new UsuarioComum();
-//		 usuario.setId(5L);
-//		 usuario.setNome("Wandson");
-//		 usuario.setIdade(17);
-//		 usuario.setEndereco("Centro");
-//		 usuario.setTelefone("99 9999 9999");
-//		 usuario.setCpf("04357368083");
-//		 UsuarioDao.criarUsuario(usuario);
-//		 imprimirUsuarioComum();
-		
-		// Editora editora = new Editora();
-		// editora.setId(1L);
-		// editora.setNome("Editora Abril");
-		// editora.setEndereco("Av. Brigadeiro Faria Lima");
-		// editora.setTelefone("99 9999 9999");
-		// EditoraDao.criarEditora(editora);
+		MenuPrincipalSwing.createTela(true);
+		// UsuarioComum usuario = new UsuarioComum();
+		// usuario.setId(5L);
+		// usuario.setNome("Wandson");
+		// usuario.setIdade(17);
+		// usuario.setEndereco("Centro");
+		// usuario.setTelefone("99 9999 9999");
+		// usuario.setCpf("04357368083");
+		// UsuarioDao.criarUsuario(usuario);
+		// imprimirUsuarioComum();
 
-//		 Autor autor = new Autor();
-//		 autor.setId(1L);
-//		 autor.setNome("Augusto Cury");
-//		 AutorDao.criarAutor(autor);
+		//Editora editora = new Editora();
+		//editora.setId(2L);
+		//editora.setNome("Editora Globo");
+		//editora.setEndereco("Av. Barão do Rio Branco");
+		//editora.setTelefone("99 9999 9999");
+		//EditoraDao.criarEditora(editora);
 
-//		 Livro livro = new Livro();
-//		 Editora editora = EditoraDao.readEditora(1);
-//		 List<Autor> autores = new ArrayList<Autor>();
-//		 autores.add(AutorDao.readAutor(1));
-//		 livro.setId(2L);
-//		 livro.setNome("O código da Inteligência");
-//		 livro.setEditora(editora);
-//		 livro.setAutores(autores);
-//		 LivroDao.criarLivro(livro);
+		// Autor autor = new Autor();
+		// autor.setId(1L);
+		// autor.setNome("Augusto Cury");
+		// AutorDao.criarAutor(autor);
+
+		// Livro livro = new Livro();
+		// Editora editora = EditoraDao.readEditora(1);
+		// List<Autor> autores = new ArrayList<Autor>();
+		// autores.add(AutorDao.readAutor(1));
+		// livro.setId(2L);
+		// livro.setNome("O código da Inteligência");
+		// livro.setEditora(editora);
+		// livro.setAutores(autores);
+		// LivroDao.criarLivro(livro);
 
 	}
 

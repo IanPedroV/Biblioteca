@@ -34,7 +34,7 @@ public class MenuPrincipalSwing {
 		botaoMenuEditora.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				EditoraSwing.createTelaEditora(true);
+				EditoraSwing.createTelaMenuEditora(true);
 				frameMenu.setVisible(false);
 				frameMenu.dispose();
 			}
@@ -50,11 +50,10 @@ public class MenuPrincipalSwing {
 			}
 		});
 
-		// Direciona para o menu de autor
-		botaoMenuEditora.addActionListener(new ActionListener() {
+		botaoMenuAutor.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//EditoraSwing.createTelaEditora(true);
+				AutorSwing.createTelaMenuAutor(true);
 				frameMenu.setVisible(false);
 			}
 		});

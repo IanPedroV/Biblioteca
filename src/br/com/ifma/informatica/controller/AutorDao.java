@@ -74,7 +74,6 @@ public class AutorDao {
 
 	public static Autor readAutor(int id) throws SQLException {
 		String sql = ("SELECT FROM autor WHERE id = '"+ id +"';" );
-		System.out.println(sql);
 		for (Autor autor : readAutor()) {
 			if (autor.getID() == id) {
 				return autor;
