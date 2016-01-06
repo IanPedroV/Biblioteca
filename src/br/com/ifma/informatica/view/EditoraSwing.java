@@ -2,15 +2,20 @@ package br.com.ifma.informatica.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
-import br.com.ifma.informatica.model.*;
+import br.com.ifma.informatica.controller.EditoraDao;
+import br.com.ifma.informatica.model.Editora;
 
 public class EditoraSwing {
 
@@ -130,6 +135,21 @@ public class EditoraSwing {
 		botaoCadastrar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String id = textId.getText();
+				String nome = textNome.getText();
+				String endereco = textEndereco.getText();
+				String telefone = textTelefone.getText();
+				Editora editora = new Editora();
+				editora.setId(Long.parseLong(id));
+				editora.setNome(nome);
+				editora.setEndereco(endereco);
+				editora.setTelefone(telefone);
+				try {
+					EditoraDao.criarEditora(editora);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				
 				JOptionPane.showMessageDialog(null, "Editora cadastrada com sucesso!");
 				textId.setText("");
 				textNome.setText("");
@@ -157,10 +177,14 @@ public class EditoraSwing {
 		return null;
 	}
 	
-	public static void createTelaConsultarEditora(Boolean setDeVisibilidade) {
+	public static void createTelaConsultarEditora(Boolean setDeVisibilidade){
 		JFrame frameConsultarEditora = new JFrame("Consulta de Editora");
 		JPanel panelConsultarEditora = new JPanel();
-
+		
+		DefaultTableModel model = new DefaultTableModel(new Object[]{"Nome","Endereço","Telefone"},0 );
+		JTable tabela = new JTable(model);
+		JScrollPane barraRolagem = new JScrollPane(tabela);
+	    
 		frameConsultarEditora.add(panelConsultarEditora);
 		frameConsultarEditora.setSize(800, 600);
 		frameConsultarEditora.setVisible(setDeVisibilidade);
@@ -168,9 +192,23 @@ public class EditoraSwing {
 		JButton botaoVoltar = new JButton("Voltar");
 		JButton botaoSair = new JButton("Sair");
 
+		panelConsultarEditora.add(barraRolagem);
 		panelConsultarEditora.add(botaoVoltar);
 		panelConsultarEditora.add(botaoSair);
-
+		
+		try {
+			   for (Editora editora : EditoraDao.readEditora()) {
+				   String nome = editora.getNome();
+				   String endereco = editora.getEndereco();
+				   String telefone = editora.getTelefone();
+				    model.addRow(new Object[]{nome,endereco,telefone});
+				    
+				  }
+			 }
+			catch(Exception e){
+				e.printStackTrace();
+		    }
+			
 		botaoVoltar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -199,7 +237,7 @@ public class EditoraSwing {
 
 		JLabel labelAtributo = new JLabel("Atributo a ser alterado: ");
 		JLabel labelValorAtual = new JLabel("Valor Atual a ser alterado: ");
-		JLabel labelValorNovo = new JLabel("Valor a ser substituído: ");
+		JLabel labelValorNovo = new JLabel("Valor a ser substituÃ­do: ");
 
 		JTextField textAtributo = new JTextField(10);
 		JTextField textValorAtual = new JTextField(25);
@@ -263,6 +301,12 @@ public class EditoraSwing {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String textNome = textNomeDaEditora.getText();
+				try {
+					EditoraDao.deleteEditora(textNome);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 				JOptionPane.showMessageDialog(null, "Esta editora foi excluído!");
 				textNomeDaEditora.setText("");
 				frameExcluirEditora.dispose();

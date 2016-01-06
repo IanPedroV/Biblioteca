@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JComboBox;
-
 import br.com.ifma.informatica.model.Editora;
 
 public class EditoraDao {
@@ -37,7 +35,7 @@ public class EditoraDao {
 		List<Editora> lista = new ArrayList<Editora>();
 		try {
 			Connection con = Dao.getConnection();
-			String sql = ("SELECT * FROM editora ORDER BY NOME");
+			String sql = ("SELECT * FROM editora order by nome");
 			PreparedStatement ps = con.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			Editora editora;

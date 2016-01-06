@@ -1,34 +1,29 @@
 package br.com.ifma.informatica.controller;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.ifma.informatica.model.Autor;
-import br.com.ifma.informatica.model.Editora;
 import br.com.ifma.informatica.model.Livro;
 
 public class AutorDao {
 	/*
 	 * 
-  CREATE TABLE `autor` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(45) DEFAULT NULL,
-  `idlivro` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idlivro_idx` (`idlivro`),
-  CONSTRAINT `idlivro` FOREIGN KEY (`idlivro`) REFERENCES `livro` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+	 * CREATE TABLE `autor` ( `id` int(11) NOT NULL, `nome` varchar(45) DEFAULT
+	 * NULL, `idlivro` int(11) DEFAULT NULL, PRIMARY KEY (`id`), KEY
+	 * `idlivro_idx` (`idlivro`), CONSTRAINT `idlivro` FOREIGN KEY (`idlivro`)
+	 * REFERENCES `livro` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION )
+	 * ENGINE=InnoDB DEFAULT CHARSET=latin1;
 	 */
-	
 
 	public static void criarAutor(Autor autor) throws SQLException {
 		try {
 			Connection con = Dao.getConnection();
-			String sql = ("INSERT INTO autor (ID, NOME) VALUES ('" + autor.getID() +"', '" +  autor.getNome() + "')");
+			String sql = ("INSERT INTO autor (ID, NOME) VALUES ('" + autor.getID() + "', '" + autor.getNome() + "')");
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.executeUpdate();
 		} catch (Exception e) {
@@ -73,7 +68,6 @@ public class AutorDao {
 	}
 
 	public static Autor readAutor(int id) throws SQLException {
-		String sql = ("SELECT FROM autor WHERE id = '"+ id +"';" );
 		for (Autor autor : readAutor()) {
 			if (autor.getID() == id) {
 				return autor;
@@ -100,7 +94,7 @@ public class AutorDao {
 	public static void updateAutor(Long idAutor, String parametro, String novoValor) {
 		try {
 			Connection con = Dao.getConnection();
-			String sql = ("UPDATE autor SET " + parametro + " = " + novoValor + " WHERE  ID = " + idAutor);
+			String sql = ("UPDATE autor SET " + parametro + " = '" + novoValor + "' WHERE ID = '" + idAutor + "';");
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.executeUpdate();
 		} catch (Exception e) {

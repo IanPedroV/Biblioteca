@@ -4,11 +4,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.ifma.informatica.controller.AluguelDao;
 import br.com.ifma.informatica.controller.AutorDao;
 import br.com.ifma.informatica.controller.EditoraDao;
 import br.com.ifma.informatica.controller.LivroDao;
 import br.com.ifma.informatica.controller.UsuarioDao;
+import br.com.ifma.informatica.model.AluguelDeLivro;
 import br.com.ifma.informatica.model.Autor;
+import br.com.ifma.informatica.model.Bibliotecario;
 import br.com.ifma.informatica.model.Editora;
 import br.com.ifma.informatica.model.Livro;
 import br.com.ifma.informatica.model.Usuario;
@@ -54,12 +57,12 @@ public class AppBiblioteca {
 		// UsuarioDao.criarUsuario(usuario);
 		// imprimirUsuarioComum();
 
-		//Editora editora = new Editora();
-		//editora.setId(2L);
-		//editora.setNome("Editora Globo");
-		//editora.setEndereco("Av. Barão do Rio Branco");
-		//editora.setTelefone("99 9999 9999");
-		//EditoraDao.criarEditora(editora);
+		// Editora editora = new Editora();
+		// editora.setId(3L);
+		// editora.setNome("Independence Editora");
+		// editora.setEndereco("Shopping Iguatemi");
+		// editora.setTelefone("99 9999 9999");
+		// EditoraDao.criarEditora(editora);
 
 		// Autor autor = new Autor();
 		// autor.setId(1L);
@@ -75,6 +78,21 @@ public class AppBiblioteca {
 		// livro.setEditora(editora);
 		// livro.setAutores(autores);
 		// LivroDao.criarLivro(livro);
+
+//		AluguelDeLivro aluguel = new AluguelDeLivro();
+//		Livro livro = LivroDao.readLivro(1);
+//		System.out.println("Livro: " +livro);
+//		UsuarioComum usuario = UsuarioDao.readUsuarioComum(1);
+//		System.out.println("Usuario: " +usuario);
+//		Bibliotecario bibliotecario = UsuarioDao.readBibliotecario(2);
+//		System.out.println("Bibliotecario: " +bibliotecario);
+//		aluguel.setId(1L);
+//		aluguel.setLivro(livro);
+//		aluguel.setUsuario(usuario);
+//		aluguel.setBibliotecario(bibliotecario);
+//		aluguel.setHoraDoAluguel("10/15/2015");
+//		aluguel.setHoraDeDevolucao("10/15/2015");
+//		AluguelDao.criarAluguel(aluguel);
 
 	}
 

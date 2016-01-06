@@ -2,29 +2,30 @@ package br.com.ifma.informatica.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import br.com.ifma.informatica.controller.AutorDao;
-import br.com.ifma.informatica.controller.Dao;
 import br.com.ifma.informatica.controller.EditoraDao;
 import br.com.ifma.informatica.controller.LivroDao;
+import br.com.ifma.informatica.controller.UsuarioDao;
 import br.com.ifma.informatica.model.Autor;
 import br.com.ifma.informatica.model.Editora;
 import br.com.ifma.informatica.model.Livro;
-import javafx.scene.control.ComboBox;
+import br.com.ifma.informatica.model.UsuarioComum;
 
 public class LivroSwing {
 
@@ -57,7 +58,6 @@ public class LivroSwing {
 				try {
 					LivroSwing.createTelaCadastrarLivro(true);
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				frameMenuLivro.setVisible(false);
@@ -118,7 +118,11 @@ public class LivroSwing {
 		JButton botaoCadastrar = new JButton("Cadastrar");
 		JButton botaoVoltar = new JButton("Voltar");
 		JButton botaoSair = new JButton("Sair");
-		JComboBox<String> comboEditora = new JComboBox<String>();
+		
+		final DefaultComboBoxModel<Editora> defaultcombo = new DefaultComboBoxModel<Editora>();
+	    final JComboBox<Editora> comboEditora = new JComboBox<Editora>(defaultcombo);
+	    
+
 
 		JLabel labelId = new JLabel("Identificação: ");
 		JLabel labelNome = new JLabel("Nome: ");
@@ -131,18 +135,11 @@ public class LivroSwing {
 		frameCadastroLivro.setSize(800, 600);
 		frameCadastroLivro.setVisible(setDeVisibilidade);
 
-		try {
-			Connection con = Dao.getConnection();
-			String sql = ("SELECT nome FROM editora ORDER BY ID");
-			PreparedStatement ps = con.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				comboEditora.addItem(rs.getString("nome"));	
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		for (Editora editora : EditoraDao.readEditora()) {
+			comboEditora.addItem(editora);
 		}
 
+		
 		panel.add(labelId);
 		panel.add(textId);
 		panel.add(labelNome);
@@ -152,17 +149,16 @@ public class LivroSwing {
 		panel.add(botaoCadastrar);
 		panel.add(botaoVoltar);
 		panel.add(botaoSair);
-
+		
 		botaoCadastrar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Livro cadastrado com sucesso!");
-				try {		
-					
+				try {
 					Livro livro = new Livro();
 					String text = textId.getText();
 					String text1 = textNome.getText();
-					Editora editora = EditoraDao.readEditora(comboEditora.getSelectedIndex());
+					Editora editora = (Editora) comboEditora.getSelectedItem();
 					List<Autor> autores = new ArrayList<Autor>();
 					autores.add(AutorDao.readAutor(1));
 					livro.setId(Long.parseLong(text));
@@ -201,6 +197,10 @@ public class LivroSwing {
 	public static void createTelaConsultarLivro(Boolean setDeVisibilidade) {
 		JFrame frameConsultarLivro = new JFrame("Consulta de Livro");
 		JPanel panelConsultarLivro = new JPanel();
+		
+		DefaultTableModel model = new DefaultTableModel(new Object[]{"Nome","Editora"},0 );
+		JTable tabela = new JTable(model);
+		JScrollPane barraRolagem = new JScrollPane(tabela);
 
 		frameConsultarLivro.add(panelConsultarLivro);
 		frameConsultarLivro.setSize(800, 600);
@@ -209,8 +209,21 @@ public class LivroSwing {
 		JButton botaoVoltar = new JButton("Voltar");
 		JButton botaoSair = new JButton("Sair");
 
+		panelConsultarLivro.add(barraRolagem);
 		panelConsultarLivro.add(botaoVoltar);
 		panelConsultarLivro.add(botaoSair);
+		
+		try {
+			   for (Livro livro : LivroDao.readLivro()) {
+				   String nome = livro.getNome();
+				   Editora editora = livro.getEditora();
+				    model.addRow(new Object[]{nome,editora});
+				    
+				  }
+			 }
+			catch(Exception e){
+				e.printStackTrace();
+		    }
 
 		botaoVoltar.addActionListener(new ActionListener() {
 			@Override
@@ -238,27 +251,40 @@ public class LivroSwing {
 		JButton botaoVoltar = new JButton("Voltar");
 		JButton botaoSair = new JButton("Sair");
 
-		JLabel labelAtributo = new JLabel("Atributo a ser alterado: ");
-		JLabel labelValorAtual = new JLabel("Valor Atual a ser alterado: ");
-		JLabel labelValorNovo = new JLabel("Valor a ser substituído: ");
+		JLabel labelIdLivro = new JLabel("Id do Livro: ");
+		JLabel labelAtributoLivro = new JLabel("Parametro a ser alterado: ");
+		JLabel labelValorNovoLivro = new JLabel("Valor novo: ");
 
-		JTextField textAtributo = new JTextField(10);
-		JTextField textValorAtual = new JTextField(25);
-		JTextField textValorNovo = new JTextField(25);
+		JTextField textIdLivro = new JTextField(10);
+		JTextField textAtributoLivro = new JTextField(25);
+		JTextField textValorNovoLivro = new JTextField(25);
 
 		frameAlterarLivro.add(panelAlterarLivro);
 		frameAlterarLivro.setSize(800, 600);
 		frameAlterarLivro.setVisible(setDeVisibilidade);
 
-		panelAlterarLivro.add(labelAtributo);
-		panelAlterarLivro.add(textAtributo);
-		panelAlterarLivro.add(labelValorAtual);
-		panelAlterarLivro.add(textValorAtual);
-		panelAlterarLivro.add(labelValorNovo);
-		panelAlterarLivro.add(textValorNovo);
+		panelAlterarLivro.add(labelIdLivro);
+		panelAlterarLivro.add(textIdLivro);
+		panelAlterarLivro.add(labelAtributoLivro);
+		panelAlterarLivro.add(textAtributoLivro);
+		panelAlterarLivro.add(labelValorNovoLivro);
+		panelAlterarLivro.add(textValorNovoLivro);
 		panelAlterarLivro.add(botaoAlterar);
 		panelAlterarLivro.add(botaoVoltar);
 		panelAlterarLivro.add(botaoSair);
+
+		botaoAlterar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Livro alterado com sucesso!");
+				MenuPrincipalSwing.createTela(true);
+				frameAlterarLivro.dispose();
+				String textId = textIdLivro.getText();
+				String textAtributo = textAtributoLivro.getText();
+				String textValorNovo = textValorNovoLivro.getText();
+				LivroDao.updateLivro(Long.parseLong(textId), textAtributo, textValorNovo);
+			}
+		});
 
 		botaoVoltar.addActionListener(new ActionListener() {
 			@Override
@@ -304,6 +330,12 @@ public class LivroSwing {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String textNome = textNomeDoLivro.getText();
+				try {
+					LivroDao.deleteLivro(textNome);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 				JOptionPane.showMessageDialog(null, "Este livro foi excluído!");
 				textNomeDoLivro.setText("");
 				frameExcluirLivro.dispose();

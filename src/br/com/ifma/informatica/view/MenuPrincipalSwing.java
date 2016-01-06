@@ -18,6 +18,7 @@ public class MenuPrincipalSwing {
 		JButton botaoMenuEditora = new JButton("Menu de Editora");
 		JButton botaoMenuAutor = new JButton("Menu de Autor");
 		JButton botaoMenuUsuario = new JButton("Menu de Usuario");
+		JButton botaoMenuAluguel = new JButton("Menu de Aluguel");
 		JButton botaoSair = new JButton("Sair");
 
 		frameMenu.add(panel);
@@ -28,6 +29,7 @@ public class MenuPrincipalSwing {
 		panel.add(botaoMenuEditora);
 		panel.add(botaoMenuAutor);
 		panel.add(botaoMenuUsuario);
+		panel.add(botaoMenuAluguel);
 		panel.add(botaoSair);
 
 		// Direciona para o menu de Editora
@@ -58,14 +60,21 @@ public class MenuPrincipalSwing {
 			}
 		});
 
-		// Direciona para o menu de usuarioComum
-		botaoMenuEditora.addActionListener(new ActionListener() {
+		botaoMenuUsuario.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//EditoraSwing.createTelaEditora(true);
+				UsuarioSwing.createTelaMenuUsuario(true);
 				frameMenu.setVisible(false);
 			}
 		});
+		
+		botaoMenuAluguel.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						AluguelSwing.createTelaMenuAluguel(true);
+						frameMenu.setVisible(false);
+					}
+				});
 
 		// Sai do sistema
 		botaoSair.addActionListener(new ActionListener() {

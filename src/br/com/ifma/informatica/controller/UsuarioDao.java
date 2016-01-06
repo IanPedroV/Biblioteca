@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.ifma.informatica.model.Bibliotecario;
+import br.com.ifma.informatica.model.Livro;
 import br.com.ifma.informatica.model.Usuario;
 import br.com.ifma.informatica.model.UsuarioComum;
 
@@ -38,14 +39,14 @@ public class UsuarioDao {
 		System.out.println("Registro Realizado.");
 	}
 
-	public static List<Usuario> readUsuarioComum() {
-		List<Usuario> lista = new ArrayList<Usuario>();
+	public static List<UsuarioComum> readUsuarioComum() {
+		List<UsuarioComum> lista = new ArrayList<UsuarioComum>();
 		try {
 			Connection con = Dao.getConnection();
 			String sql = ("SELECT * FROM usuario WHERE discriminator = 'U';");
 			PreparedStatement ps = con.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
-			Usuario usuario;
+			UsuarioComum usuario;
 			while (rs.next()) {
 				usuario = new UsuarioComum();
 				usuario.setId(rs.getLong("id"));
@@ -63,23 +64,23 @@ public class UsuarioDao {
 		return lista;
 	}
 
-	public static List<Usuario> readBibliotecario() {
-		List<Usuario> lista1 = new ArrayList<Usuario>();
+	public static List<Bibliotecario> readBibliotecario() {
+		List<Bibliotecario> lista1 = new ArrayList<Bibliotecario>();
 		try {
 			Connection con = Dao.getConnection();
 			String sql = ("SELECT * FROM usuario WHERE discriminator = 'B';");
 			PreparedStatement ps = con.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
-			Usuario usuario;
+			Bibliotecario bibliotecario;
 			while (rs.next()) {
-				usuario = new Bibliotecario();
-				usuario.setId(rs.getLong("id"));
-				usuario.setNome(rs.getString("nome"));
-				usuario.setIdade(rs.getInt("idade"));
-				usuario.setEndereco(rs.getString("endereco"));
-				usuario.setTelefone(rs.getString("telefone"));
-				usuario.setCpf(rs.getString("cpf"));
-				lista1.add(usuario);
+				bibliotecario = new Bibliotecario();
+				bibliotecario.setId(rs.getLong("id"));
+				bibliotecario.setNome(rs.getString("nome"));
+				bibliotecario.setIdade(rs.getInt("idade"));
+				bibliotecario.setEndereco(rs.getString("endereco"));
+				bibliotecario.setTelefone(rs.getString("telefone"));
+				bibliotecario.setCpf(rs.getString("cpf"));
+				lista1.add(bibliotecario);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -87,6 +88,29 @@ public class UsuarioDao {
 
 		return lista1;
 	}
+	
+	public static UsuarioComum readUsuarioComum(int id) throws SQLException {
+		for (UsuarioComum usuario : readUsuarioComum()) {
+			if (usuario.getId() == id) {
+				return usuario;
+
+			}
+		}
+		return null;
+	}
+	
+	public static Bibliotecario readBibliotecario(int id) throws SQLException {
+		for (Bibliotecario bibliotecario : readBibliotecario()) {
+			if (bibliotecario.getId() == id) {
+				return bibliotecario;
+
+			}
+		}
+		return null;
+	}
+	
+	
+
 
 	public static void updateUsuario(String valorAtual, String valorNovo, String atributo) throws SQLException {
 		try {

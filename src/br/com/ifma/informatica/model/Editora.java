@@ -46,4 +46,9 @@ public class Editora {
 		this.telefone = telefone;
 	}
 	
+	@Override
+	public String toString() {
+		return this.getNome();
+	}
+	
 }

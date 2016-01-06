@@ -2,13 +2,24 @@ package br.com.ifma.informatica.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+import br.com.ifma.informatica.controller.AutorDao;
+import br.com.ifma.informatica.controller.EditoraDao;
+import br.com.ifma.informatica.model.Autor;
+import br.com.ifma.informatica.model.Editora;
 
 public class AutorSwing {
 
@@ -38,7 +49,11 @@ public class AutorSwing {
 		botaoCadastrar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AutorSwing.createTelaCadastrarAutor(true);
+				try {
+					AutorSwing.createTelaCadastrarAutor(true);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 				frameMenuAutor.setVisible(false);
 
 			}
@@ -89,7 +104,11 @@ public class AutorSwing {
 
 	}
 
-	public static void createTelaCadastrarAutor(Boolean setDeVisibilidade) {
+	public static void createTelaCadastrarAutor(Boolean setDeVisibilidade) throws SQLException {
+		List<Editora> editoras = EditoraDao.readEditora();
+		
+		final JList editoraList = new JList(editoras.toArray());
+		
 		JFrame frameCadastroAutor = new JFrame("Cadastro de Autor");
 
 		JPanel panel = new JPanel();
@@ -119,7 +138,18 @@ public class AutorSwing {
 		botaoCadastrar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Editora cadastrada com sucesso!");
+				String id = textId.getText();
+				String nome = textNome.getText();
+				Autor autor = new Autor();
+				autor.setId(Long.parseLong(id));
+				autor.setNome(nome);
+				try {
+					AutorDao.criarAutor(autor);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				JOptionPane.showMessageDialog(null, "Autor cadastrado com sucesso!");
+				frameCadastroAutor.dispose();
 				textId.setText("");
 				textNome.setText("");
 
@@ -147,6 +177,10 @@ public class AutorSwing {
 	public static void createTelaConsultarAutor(Boolean setDeVisibilidade) {
 		JFrame frameConsultarAutor = new JFrame("Consulta de Autor");
 		JPanel panelConsultarAutor = new JPanel();
+		
+		DefaultTableModel model = new DefaultTableModel(new Object[]{"Nome"},0 );
+		JTable tabela = new JTable(model);
+		JScrollPane barraRolagem = new JScrollPane(tabela);
 
 		frameConsultarAutor.add(panelConsultarAutor);
 		frameConsultarAutor.setSize(800, 600);
@@ -154,9 +188,21 @@ public class AutorSwing {
 
 		JButton botaoVoltar = new JButton("Voltar");
 		JButton botaoSair = new JButton("Sair");
-
+     
+		panelConsultarAutor.add(barraRolagem);
 		panelConsultarAutor.add(botaoVoltar);
 		panelConsultarAutor.add(botaoSair);
+		
+		try {
+			   for (Autor autor : AutorDao.readAutor()) {
+				   String nome = autor.getNome();
+				    model.addRow(new Object[]{nome});
+				    
+				  }
+			 }
+			catch(Exception e){
+				e.printStackTrace();
+		    }
 
 		botaoVoltar.addActionListener(new ActionListener() {
 			@Override
@@ -184,28 +230,38 @@ public class AutorSwing {
 		JButton botaoVoltar = new JButton("Voltar");
 		JButton botaoSair = new JButton("Sair");
 
-		JLabel labelAtributo = new JLabel("Atributo a ser alterado: ");
-		JLabel labelValorAtual = new JLabel("Valor Atual a ser alterado: ");
-		JLabel labelValorNovo = new JLabel("Valor a ser substituído: ");
+		JLabel labelIdAutor = new JLabel("Id do Autor: ");
+		JLabel labelAtributoAutor = new JLabel("Parametro a ser alterado: ");
+		JLabel labelValorNovoAutor = new JLabel("Valor novo: ");
 
-		JTextField textAtributo = new JTextField(10);
-		JTextField textValorAtual = new JTextField(25);
-		JTextField textValorNovo = new JTextField(25);
-
+		JTextField textIdAutor = new JTextField(10);
+		JTextField textAtributoAutor = new JTextField(25);
+		JTextField textValorNovoAutor = new JTextField(25);
+		
 		frameAlterarAutor.add(panelAlterarAutor);
 		frameAlterarAutor.setSize(800, 600);
 		frameAlterarAutor.setVisible(setDeVisibilidade);
 
-		panelAlterarAutor.add(labelAtributo);
-		panelAlterarAutor.add(textAtributo);
-		panelAlterarAutor.add(labelValorAtual);
-		panelAlterarAutor.add(textValorAtual);
-		panelAlterarAutor.add(labelValorNovo);
-		panelAlterarAutor.add(textValorNovo);
+		panelAlterarAutor.add(labelIdAutor);
+		panelAlterarAutor.add(textIdAutor);
+		panelAlterarAutor.add(labelAtributoAutor);
+		panelAlterarAutor.add(textAtributoAutor);
+		panelAlterarAutor.add(labelValorNovoAutor);
+		panelAlterarAutor.add(textValorNovoAutor);
 		panelAlterarAutor.add(botaoAlterar);
 		panelAlterarAutor.add(botaoVoltar);
 		panelAlterarAutor.add(botaoSair);
 
+		botaoAlterar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String textId = textIdAutor.getText();
+				String textAtributo = textAtributoAutor.getText();
+				String textValorNovo = textValorNovoAutor.getText();
+				AutorDao.updateAutor(Long.parseLong(textId), textAtributo, textValorNovo);
+			}
+		});
+		
 		botaoVoltar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -247,9 +303,14 @@ public class AutorSwing {
 		panelExcluirAutor.add(botaoSair);
 
 		botaoExcluir.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String textNomeAutor = textNomeDoAutor.getText();
+				try {
+					AutorDao.deleteAutor(textNomeAutor);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 				JOptionPane.showMessageDialog(null, "Este Autor foi excluído!");
 				textNomeDoAutor.setText("");
 				frameExcluirAutor.dispose();

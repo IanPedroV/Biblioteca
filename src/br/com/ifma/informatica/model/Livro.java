@@ -41,5 +41,10 @@ public class Livro {
 	public void setAutores(List <Autor> autores) {
 		this.autores = autores;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getNome();
+	}
 
 }

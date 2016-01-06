@@ -2,7 +2,7 @@ package br.com.ifma.informatica.model;
 
 public class Bibliotecario extends Usuario {
 
-	public static final String DISCRIMINATOR = "B";
+	public final String DISCRIMINATOR = "B";
 
 	public Bibliotecario() {
 		this.setDiscriminator(DISCRIMINATOR);
@@ -18,5 +18,10 @@ public class Bibliotecario extends Usuario {
 
 	public void cadastroDeLivros(String nome, String editora, String autor) {
 
+	}
+	
+	@Override
+	public String toString() {
+		return this.getNome();
 	}
 }
